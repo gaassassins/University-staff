@@ -1,0 +1,51 @@
+#include <iostream>
+#include <fstream>
+#include <stdio.h> 
+#include <vector>
+#include <string>
+#include <cstdlib>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+void main()
+{
+ifstream inp("input.txt");
+ofstream outp("output.txt");
+
+int n, u, m, k=0;
+
+inp » n;
+inp » m;
+inp » u; 
+vector <pair<int,int» vec (m+1);
+for (int i=0; i<m; i++)
+
+{
+inp » vec[i].first;
+
+inp » vec[i].second;
+;}
+
+for (int i=0 ; i<m; i++)
+{ 
+if ((vec[i].first == u) || (vec[i].second == u))
+{
+k++;
+for (int j=i; j<m-1; j++)
+
+{ 
+vec[j]=vec[j+1];
+} 
+i--;
+}
+
+} 
+
+for (int i=0 ; i<m-k; i++)
+
+outp « vec[i].first « vec[i].second«"\n";
+
+system ("pause");
+}
