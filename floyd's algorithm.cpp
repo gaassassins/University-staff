@@ -7,7 +7,8 @@ int main()
 ifstream inp("input.txt");
 ofstream outp("output.txt");
 int n,i,j,k,d[100][100];
-inp » n; 
+inp » n;
+
 for (i=0;i<n;++i) // пробегаем по матрице
 for (j=0;j<n;++j)
 {
