@@ -1,64 +1,87 @@
 #include <iostream>
-#include <vector>
+#include <fstream>
+#include <stdio.h> 
+#include < vector>
+#include <string>
+#include <sstream>
+#include <cstdlib>
+#include <cstring>
 #include <algorithm>
-using namespace std;
-const int inf = 1555555555;
-struct edge {
-        int a, b, cost;
-};
-int main()
-{
-        vector<edge> e;
-        int n, m, i, ans = 0;        
-    cin>>n>>m;
-    edge t;
+#include <map>
 
-    for(i=0; i<m; i++)
-        {
-         cin>>t.a>>t.b>>t.cost;
-        t.a--; t.b--;
-        e.push_back(t);
-        }
-// применяем алгоритм Форда-Беллмана для релеакцасии между вершинами
-    vector<int> d (n, -1);
-        vector<int> p (n);
- 
-        int x;
-        for (int i=0; i<n; ++i) 
-        {
-                x = -1;
-                for (int j=0; j<m; ++j)
-                        if (d[e[j].a] < inf)
-                                if (d[e[j].b] > d[e[j].a] + e[j].cost) 
-                                {
-                                        d[e[j].b] = max (-inf, d[e[j].a] + e[j].cost);
-                                        p[e[j].b] = e[j].a;
-                                        x = e[j].b;
-                                }
-        }
- 
-        if (x == -1)
-                cout << "NO"; // найден кратчайший  без отрицательного веса
-        else 
-        {
-                int y = x;
-                for (int i=0; i<n; ++i)
-                        y = p[y];
- 
-                vector<int> path;
-                for (int cur=y; ; cur=p[cur]) 
-                {
-                        path.push_back (cur);
-                        ans++;
-                        if (cur == y && path.size() > 1)  break; // если больше 0 - прерываем
-                }
-                reverse (path.begin(), path.end());
- 
-                cout<<"YES"<<endl;
-                cout<<ans<<endl;
-                for (size_t i=0; i<path.size()-1; ++i)
-                        cout << path[i]+1 << ' ';
-                cout << path[path.size()-1]+1;
-        }
-return 0;
+using namespace std;
+int n;
+
+vector <vector<int» g2;
+map <int,vector<int» g;
+map<int,int> cl;
+map<int,int> p;
+
+int cycle_st, cycle_end;
+
+bool dfs (int v) {
+cl[v] = 1; 
+int to; 
+
+for (int i=0; i < (int)g[v].size(); ++i) {
+
+if (g[v][i]!=0) {
+
+to = g[v][i];
+
+if (cl[to] == 0) {
+p[to] = v;
+if (dfs (to)) return true;
+}
+
+else if (cl[to] == 1 && p[v] != to) {
+cycle_end = v;
+cycle_st = to;
+return true;
+}}}
+
+cl[v] = 2;
+return false;
+}
+
+void main() {
+
+ifstream inp("input.txt");
+inp >> n; 
+
+int x,y,j; 
+int i = 0;
+string str;
+
+getline (inp, str);
+
+for ( int i=0 ; i<n ; i++)
+{
+
+getline (inp, str );
+stringstream sio(str);
+sio >> x;
+cl[x] = 0;
+p[x] = -1;
+
+while ( sio»y )
+
+{ 
+g[x].push_back(y);
+
+} 
+}
+
+cycle_st = -1;
+
+for (map <int,vector<int>>::iterator it = g.begin(); it != g.end(); it++)
+if (dfs ((*it).first)) 
+break;
+
+if (cycle_st == -1)
+cout << "Acyclic" << endl;
+else
+cout << "Cyclic" << endl;
+
+system ("pause");
 }
